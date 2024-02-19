@@ -1,27 +1,57 @@
-*/.DS_Store
+# macOS
 .DS_Store
-# Miscellaneous
-/*.class
-/*.log
-/*.pyc
-/*.swp
-/.DS_Store
-/.atom/
-/.buildlog/
-/.history
-/.svn/
-/migrate_working_dir/
 
 # IntelliJ related
-/*.iml
-/*.ipr
-/*.iws
-/.idea/
+.idea/
 
-# The .vscode folder contains launch configuration and tasks you configure in
-# VS Code which you may wish to be included in version control, so this line
-# is commented out by default.
-#.vscode/
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.Python
+env/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+*.egg-info/
+.installed.cfg
+*.egg
+pip-log.txt
+pip-delete-this-directory.txt
+htmlcov/
+.tox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*,cover
+.hypothesis/
+*.mo
+*.pot
+*.log
+local_settings.py
+instance/
+.webassets-cache
+.scrapy
+docs/_build/
+target/
+.ipynb_checkpoints
+.python-version
+celerybeat-schedule
+.env
+venv/
+ENV/
+.spyderproject
+.ropeproject
 
 # Flutter/Dart/Pub related
 /**/doc/api/
@@ -32,14 +62,44 @@
 /.pub-cache/
 /.pub/
 /build/
-
-# Symbolication related
-/app.*.symbols
-
-# Obfuscation related
-/app.*.map.json
-
-# Android Studio will place build artifacts here
+.app.*.symbols
+.app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+# JetBrains
+.idea/**/workspace.xml
+.idea/**/tasks.xml
+.idea/**/usage.statistics.xml
+.idea/**/dictionaries
+.idea/**/shelf
+.idea/**/aws.xml
+.idea/**/contentModel.xml
+.idea/**/dataSources/
+.idea/**/dataSources.ids
+.idea/**/dataSources.local.xml
+.idea/**/sqlDataSources.xml
+.idea/**/dynamic.xml
+.idea/**/uiDesigner.xml
+.idea/**/dbnavigator.xml
+.idea/**/gradle.xml
+.idea/**/libraries
+.idea/**/mongoSettings.xml
+.idea_modules/
+.atlassian-ide-plugin.xml
+.idea/replstate.xml
+.idea/sonarlint/
+.idea/httpRequests
+.idea/caches/build_file_checksums.ser
+
+# Miscellaneous
+/*.class
+/*.log
+/*.swp
+/.atom/
+/.buildlog/
+/.history
+/.svn/
+/migrate_working_dir/
+
