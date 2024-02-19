@@ -35,7 +35,6 @@ class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
 }
 
-
 class _HomePageState extends State<HomePage> {
   int pageIndex = 0;
   int button_clicked = 0;
