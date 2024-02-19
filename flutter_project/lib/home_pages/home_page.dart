@@ -93,6 +93,8 @@ class _HomePageState extends State<HomePage> {
                 pageIndex = 0;
               });
             },
+
+            // HOME PAGE BUTTON
             icon: pageIndex == 0
                 ? const Icon(
                     Icons.home_filled,
@@ -105,6 +107,8 @@ class _HomePageState extends State<HomePage> {
                     size: 40,
                   ),
           ),
+
+          // PLAY AUDİO BUTTON
           IconButton(
             enableFeedback: false,
             onPressed: () {
@@ -124,6 +128,8 @@ class _HomePageState extends State<HomePage> {
                     size: 50,
                   ),
           ),
+
+          // PROFİL PAGE BUTTON
           IconButton(
             enableFeedback: false,
             onPressed: () {
@@ -148,8 +154,8 @@ class _HomePageState extends State<HomePage> {
     );
   }
 }
-// HOME PAGE
 
+// HOME PAGE
 class Page1 extends StatelessWidget {
   const Page1({Key? key}) : super(key: key);
 
