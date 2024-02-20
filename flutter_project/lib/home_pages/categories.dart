@@ -18,7 +18,7 @@ class Tabbar extends StatefulWidget {
 class _TabbarState extends State<Tabbar> {
   final currentUser = FirebaseAuth.instance.currentUser!;
   String translations = 'Tech,Politics,Economy,Sports';
-
+  
   Future<void> translateCategories(
       String categoriesToTranslate, String translationCountryCode,
       {bool debug = false}) async {
@@ -33,32 +33,6 @@ class _TabbarState extends State<Tabbar> {
       setState(() {});
     } else {
       throw Exception('Failed to load translations');
-    }
-  }
-
-  String getTranscriptResponse = 'Response will appear here';
-  Future<void> getTranscriptData(String parameter) async {
-    final String apiUrl = 'https://your-api-endpoint.com/api';
-
-    final Uri uri = Uri.parse('$apiUrl?parameter=$parameter');
-    try {
-      final response = await http.get(uri);
-
-      if (response.statusCode == 200) {
-        final responseData = json.decode(response.body);
-        setState(() {
-          getTranscriptResponse = responseData[
-              'your_desired_field']; // Adjust according to your API response structure
-        });
-      } else {
-        setState(() {
-          getTranscriptResponse = 'Failed to load data';
-        });
-      }
-    } catch (e) {
-      setState(() {
-        getTranscriptResponse = 'Error: $e';
-      });
     }
   }
 
@@ -97,10 +71,9 @@ class _TabbarState extends State<Tabbar> {
                         }
                         return TabBar(
                           tabs: tabs,
-                          onTap: (index) {
+                           onTap: (index) {
                             // Call the onCategorySelected function
-                            widget.onCategorySelected(
-                                translations.split(',')[index]);
+                            widget.onCategorySelected(translations.split(',')[index]);
                           },
                         );
                       }),
