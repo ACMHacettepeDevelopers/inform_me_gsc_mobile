@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
 
-import '../audio_converter.dart';
+import '../utils/audio_converter.dart';
 import '../podcast_properties.dart';
 import 'news_page.dart';
 import 'profile_page.dart';
