@@ -19,8 +19,7 @@ class _TabbarState extends State<Tabbar> {
   Future<void> translateCategories(
       String categoriesToTranslate, String translationCountryCode,
       {bool debug = false}) async {
-    final baseUrl =
-        'http://your-server-url.com'; // Replace with your server URL
+    final baseUrl = 'http://your-server-url.com'; // Replace with your server URL
     final url =
         '$baseUrl/translate_categories?categories_to_translate=$categoriesToTranslate&translation_country_code=$translationCountryCode&mode=${debug ? 'debug' : ''}';
     translations = 'Tech,Politicis,Economy,Sports';
