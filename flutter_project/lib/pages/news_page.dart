@@ -5,6 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:loginpage/utils/custom_text_style.dart';
 
 import '../podcast_properties.dart';
 
@@ -106,16 +107,16 @@ class _NewsPageState extends State<NewsPage> {
     return ListView(
       padding: const EdgeInsets.all(16),
       children: [
-        Text(
-          category,
-          style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
-        ),
+        Text(category, style: CustomTextStyle.titleStyle),
         const Divider(),
         FutureBuilder<String>(
             future: handleMP3(),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
-                return Text(snapshot.data!);
+                return Text(
+                  snapshot.data!,
+                  style: CustomTextStyle.transcriptStyle,
+                );
               }
               return const Text("Loading...");
             })
