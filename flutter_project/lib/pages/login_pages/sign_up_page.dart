@@ -46,6 +46,7 @@ void showRegistrationSuccessDialog(BuildContext context) {
 class _SignUpPageState extends State<SignUpPage> {
   String selectedCountry = "";
   String address = "";
+  String countryAlp2 = "";
   final usernameController = TextEditingController();
   final eMailController = TextEditingController();
   final passwordController = TextEditingController();
@@ -76,7 +77,7 @@ class _SignUpPageState extends State<SignUpPage> {
         {
           'username': usernameController.text,
           'email': eMailController.text,
-          'country': selectedCountry,
+          'country': countryAlp2,
         },
       );
 
@@ -233,10 +234,11 @@ class _SignUpPageState extends State<SignUpPage> {
 
                 // country picker
                 CountryPicker(
-                  onCountryChanged: (value) {
+                  onCountryChanged: (value, alph2) {
                     setState(() {
                       selectedCountry = value;
                       print("sign up page - selcted country: $selectedCountry");
+                      countryAlp2 = alph2;
                     });
                   },
                 ),
