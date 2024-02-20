@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
+import 'package:loginpage/podcast_properties.dart';
+
 class Tabbar extends StatefulWidget {
   final Function(String) onCategorySelected;
 
@@ -16,14 +18,12 @@ class Tabbar extends StatefulWidget {
 class _TabbarState extends State<Tabbar> {
   final currentUser = FirebaseAuth.instance.currentUser!;
   String translations = 'Tech,Politics,Economy,Sports';
+  
   Future<void> translateCategories(
       String categoriesToTranslate, String translationCountryCode,
       {bool debug = false}) async {
-    final baseUrl = 'http://your-server-url.com'; // Replace with your server URL
     final url =
-        '$baseUrl/translate_categories?categories_to_translate=$categoriesToTranslate&translation_country_code=$translationCountryCode&mode=${debug ? 'debug' : ''}';
-    translations = 'Tech,Politicis,Economy,Sports';
-    setState(() {});
+        '${PodcastProperties.baseUrl}/translate_categories?categories_to_translate=$categoriesToTranslate&translation_country_code=$translationCountryCode&mode=${debug ? 'debug' : ''}';
     final response = await http.get(Uri.parse(url));
 
     if (response.statusCode == 200) {
@@ -78,8 +78,8 @@ class _TabbarState extends State<Tabbar> {
                         );
                       }),
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
+                const Padding(
+                  padding: EdgeInsets.all(8.0),
                   child: TextField(
                     decoration: InputDecoration(
                       hintText: 'Search',
@@ -91,7 +91,7 @@ class _TabbarState extends State<Tabbar> {
             ),
           ),
         ),
-        body: TabBarView(
+        body: const TabBarView(
           children: [
             Center(
               child: Text("Tech"),

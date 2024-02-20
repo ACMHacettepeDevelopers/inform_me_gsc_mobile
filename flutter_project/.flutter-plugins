@@ -1,4 +1,5 @@
 # This is a generated file; do not edit or check into version control.
+audio_session=/Users/berraurhan/.pub-cache/hosted/pub.dev/audio_session-0.1.18/
 audioplayers=/Users/berraurhan/.pub-cache/hosted/pub.dev/audioplayers-5.2.1/
 audioplayers_android=/Users/berraurhan/.pub-cache/hosted/pub.dev/audioplayers_android-4.0.3/
 audioplayers_darwin=/Users/berraurhan/.pub-cache/hosted/pub.dev/audioplayers_darwin-5.0.2/
@@ -15,6 +16,8 @@ google_sign_in=/Users/berraurhan/.pub-cache/hosted/pub.dev/google_sign_in-6.2.1/
 google_sign_in_android=/Users/berraurhan/.pub-cache/hosted/pub.dev/google_sign_in_android-6.1.21/
 google_sign_in_ios=/Users/berraurhan/.pub-cache/hosted/pub.dev/google_sign_in_ios-5.7.4/
 google_sign_in_web=/Users/berraurhan/.pub-cache/hosted/pub.dev/google_sign_in_web-0.12.3+2/
+just_audio=/Users/berraurhan/.pub-cache/hosted/pub.dev/just_audio-0.9.36/
+just_audio_web=/Users/berraurhan/.pub-cache/hosted/pub.dev/just_audio_web-0.4.9/
 path_provider=/Users/berraurhan/.pub-cache/hosted/pub.dev/path_provider-2.1.2/
 path_provider_android=/Users/berraurhan/.pub-cache/hosted/pub.dev/path_provider_android-2.2.2/
 path_provider_foundation=/Users/berraurhan/.pub-cache/hosted/pub.dev/path_provider_foundation-2.3.2/

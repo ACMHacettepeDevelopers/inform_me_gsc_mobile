@@ -3,11 +3,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:http/http.dart' as http;
+import 'package:just_audio/just_audio.dart';
 
+import '../audio_converter.dart';
+import '../podcast_properties.dart';
 import 'categories.dart';
 
 class Home extends StatelessWidget {
-  Home({super.key});
+  const Home({super.key});
 
   // This widget is the root of the application.
   @override
@@ -29,23 +33,22 @@ class Home extends StatelessWidget {
 class HomePage extends StatefulWidget {
   final String selectedCountry;
 
-  const HomePage({Key? key, this.selectedCountry = ''}) : super(key: key);
+  const HomePage({super.key, this.selectedCountry = ''});
 
   @override
-  _HomePageState createState() => _HomePageState();
+  HomePageState createState() => HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class HomePageState extends State<HomePage> {
+  late final AudioPlayer player = AudioPlayer();
+  bool isPlaying=false;
   int pageIndex = 0;
-  int button_clicked = 0;
+  bool buttonClicked = true;
   void signUserOut() {
     FirebaseAuth.instance.signOut();
   }
 
-  void onCategorySelected(String category) {
-    print('Selected category in HomePage: $category');
-    // You can perform any other actions here
-  }
+ 
   
   final pages = [
     const Page1(), // home page
@@ -116,14 +119,26 @@ class _HomePageState extends State<HomePage> {
           // PLAY AUDİO BUTTON
           IconButton(
             enableFeedback: false,
-            onPressed: () {
-              setState(() {
-                button_clicked == 1 ? button_clicked = 0 : button_clicked = 1;
+            onPressed: () async{
+
+                if(buttonClicked){
+                        await handlePlay();
+                        buttonClicked = false;
+                }else{
+
                 // fetch audio from Flask then play the audio
-                
-              });
+                        if(isPlaying){
+                          player.pause();
+                        }else{
+                          player.play();
+                        }
+                        isPlaying = !isPlaying;
+                        setState((){});
+                } 
             },
-            icon: button_clicked == 0
+
+
+            icon: isPlaying
                 ? const Icon(
                     Icons.stop_circle,
                     color: Colors.white,
@@ -160,6 +175,21 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
+
+  Future<void> handlePlay()async{
+    final uid = FirebaseAuth.instance.currentUser?.uid;
+    http.Response response = await http.get(Uri.parse(PodcastProperties.getURL(uid)));
+
+    if (response.statusCode == 200) {
+      print(response);
+      print(response.bodyBytes);
+      final duration = await player.setAudioSource(AudioConverter(response.bodyBytes));  // Load a mp3                
+      player.play();                                  // Play without waiting for completion
+      setState(() {
+        isPlaying = true;
+      });
+    }
+  }
 }
 
 // HOME PAGE
@@ -173,9 +203,7 @@ class Page1 extends StatelessWidget {
         children: [
           SizedBox(
             height: 200, // Adjust the height as needed
-            child: Tabbar(onCategorySelected: (String category) { 
-              print('Selected category in HomePage: $category'); 
-            },), // Include the Tabbar widget here
+            child: Tabbar(onCategorySelected: (category) => handleCategorySelection(category)), // Include the Tabbar widget here
           ),
           Expanded(
             child: Container(
@@ -185,6 +213,12 @@ class Page1 extends StatelessWidget {
         ],
       ),
     );
+  }
+
+   void handleCategorySelection(String category) {
+    print('Selected category in HomePage: $category');
+    PodcastProperties.query = category.toLowerCase();
+    // You can perform any other actions here
   }
 }
 

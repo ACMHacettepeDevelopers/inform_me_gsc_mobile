@@ -14,6 +14,12 @@
       "languageVersion": "2.18"
     },
     {
+      "name": "audio_session",
+      "rootUri": "file:///Users/berraurhan/.pub-cache/hosted/pub.dev/audio_session-0.1.18",
+      "packageUri": "lib/",
+      "languageVersion": "2.14"
+    },
+    {
       "name": "audioplayers",
       "rootUri": "file:///Users/berraurhan/.pub-cache/hosted/pub.dev/audioplayers-5.2.1",
       "packageUri": "lib/",
@@ -260,6 +266,24 @@
       "languageVersion": "2.19"
     },
     {
+      "name": "just_audio",
+      "rootUri": "file:///Users/berraurhan/.pub-cache/hosted/pub.dev/just_audio-0.9.36",
+      "packageUri": "lib/",
+      "languageVersion": "2.17"
+    },
+    {
+      "name": "just_audio_platform_interface",
+      "rootUri": "file:///Users/berraurhan/.pub-cache/hosted/pub.dev/just_audio_platform_interface-4.2.2",
+      "packageUri": "lib/",
+      "languageVersion": "2.17"
+    },
+    {
+      "name": "just_audio_web",
+      "rootUri": "file:///Users/berraurhan/.pub-cache/hosted/pub.dev/just_audio_web-0.4.9",
+      "packageUri": "lib/",
+      "languageVersion": "2.17"
+    },
+    {
       "name": "lints",
       "rootUri": "file:///Users/berraurhan/.pub-cache/hosted/pub.dev/lints-3.0.0",
       "packageUri": "lib/",
@@ -336,6 +360,12 @@
       "rootUri": "file:///Users/berraurhan/.pub-cache/hosted/pub.dev/plugin_platform_interface-2.1.8",
       "packageUri": "lib/",
       "languageVersion": "3.0"
+    },
+    {
+      "name": "rxdart",
+      "rootUri": "file:///Users/berraurhan/.pub-cache/hosted/pub.dev/rxdart-0.27.7",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
     },
     {
       "name": "sky_engine",
@@ -440,7 +470,7 @@
       "languageVersion": "3.2"
     }
   ],
-  "generated": "2024-02-19T21:59:35.161697Z",
+  "generated": "2024-02-20T11:55:57.948739Z",
   "generator": "pub",
   "generatorVersion": "3.2.6"
 }
