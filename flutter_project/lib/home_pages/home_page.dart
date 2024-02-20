@@ -114,6 +114,7 @@ class _HomePageState extends State<HomePage> {
             onPressed: () {
               setState(() {
                 button_clicked == 1 ? button_clicked = 0 : button_clicked = 1;
+                // fetch audio from Flask then play the audio
               });
             },
             icon: button_clicked == 0
