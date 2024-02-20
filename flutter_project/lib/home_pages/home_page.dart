@@ -42,6 +42,11 @@ class _HomePageState extends State<HomePage> {
     FirebaseAuth.instance.signOut();
   }
 
+  void onCategorySelected(String category) {
+    print('Selected category in HomePage: $category');
+    // You can perform any other actions here
+  }
+  
   final pages = [
     const Page1(), // home page
     const Page2(), // profil page
@@ -167,7 +172,9 @@ class Page1 extends StatelessWidget {
         children: [
           SizedBox(
             height: 200, // Adjust the height as needed
-            child: Tabbar(), // Include the Tabbar widget here
+            child: Tabbar(onCategorySelected: (String category) { 
+              print('Selected category in HomePage: $category'); 
+            },), // Include the Tabbar widget here
           ),
           Expanded(
             child: Container(

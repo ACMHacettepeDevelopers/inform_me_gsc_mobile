@@ -5,7 +5,9 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class Tabbar extends StatefulWidget {
-  const Tabbar({Key? key}) : super(key: key);
+  final Function(String) onCategorySelected;
+
+  const Tabbar({Key? key, required this.onCategorySelected}) : super(key: key);
 
   @override
   State<Tabbar> createState() => _TabbarState();
@@ -70,6 +72,10 @@ class _TabbarState extends State<Tabbar> {
                         }
                         return TabBar(
                           tabs: tabs,
+                           onTap: (index) {
+                            // Call the onCategorySelected function
+                            widget.onCategorySelected(translations.split(',')[index]);
+                          },
                         );
                       }),
                 ),
