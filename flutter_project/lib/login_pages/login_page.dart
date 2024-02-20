@@ -21,9 +21,32 @@ class _LogInPageState extends State<LogInPage> {
         email: eMailController.text,
         password: passwordController.text,
       );
+      showSomeDialog(
+          'Sign In Successful', 'You have successfully signed in.', context);
     } on FirebaseAuthException catch (e) {
-      errorMessage(e.code);
+      showSomeDialog('There is an error',
+          'E-mail or password incorrect, try again.', context);
     }
+  }
+
+  void showSomeDialog(String title, String content, BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(title),
+          content: Text(content),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('OK'),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   void errorMessage(String message) {

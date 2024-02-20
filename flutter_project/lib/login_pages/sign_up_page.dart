@@ -62,7 +62,8 @@ class _SignUpPageState extends State<SignUpPage> {
 
   void signUpFunct() async {
     if (passwordController.text == passwordConfirmController.text &&
-        usernameController.text.isNotEmpty) {
+        usernameController.text.isNotEmpty &&
+        passwordController.text.trim().length >= 6) {
       UserCredential userCredential =
           await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: eMailController.text,
@@ -81,25 +82,29 @@ class _SignUpPageState extends State<SignUpPage> {
 
       // pop up ekle
       showRegistrationSuccessDialog(context);
+    } else if (passwordController.text.trim().length < 6) {
+      showSomeDialog(
+          'There is an error', 'password length must be at least 6', context);
     } else {
-      errorMessage('There is an error');
+      showSomeDialog('There is an error', 'Try again', context);
     }
   }
 
-  void errorMessage(String message) {
+  void showSomeDialog(String title, String content, BuildContext context) {
     showDialog(
       context: context,
-      builder: (context) {
+      builder: (BuildContext context) {
         return AlertDialog(
-          backgroundColor: Colors.amber,
-          title: Center(
-            child: Text(
-              message,
-              style: TextStyle(
-                color: Colors.white,
-              ),
+          title: Text(title),
+          content: Text(content),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('OK'),
             ),
-          ),
+          ],
         );
       },
     );
