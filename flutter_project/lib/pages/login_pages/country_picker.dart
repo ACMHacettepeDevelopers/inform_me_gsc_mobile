@@ -6,7 +6,8 @@ import 'package:flutter/material.dart';
 class CountryPicker extends StatefulWidget {
   final void Function(String) onCountryChanged;
 
-  const CountryPicker({Key? key, required this.onCountryChanged}) : super(key: key);
+  const CountryPicker({Key? key, required this.onCountryChanged})
+      : super(key: key);
 
   @override
   State<CountryPicker> createState() => _CountryPickerState();
@@ -14,6 +15,7 @@ class CountryPicker extends StatefulWidget {
 
 class _CountryPickerState extends State<CountryPicker> {
   String countryValue = "";
+  String countryAlpha2 = "";
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +56,11 @@ class _CountryPickerState extends State<CountryPicker> {
           onCountryChanged: (value) {
             setState(() {
               countryValue = value;
-              print("Selected Country: $countryValue"); // Print selected country
+              print(
+                  "Selected Country: $countryValue"); // Print selected country
+              countryAlpha2 =
+                  CountryPicke.getCountryByCountryName(countryName)?.isoCode ??
+                      'Not Found';
             });
             widget.onCountryChanged(countryValue); // Call the callback function
           },
