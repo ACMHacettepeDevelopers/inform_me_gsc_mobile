@@ -41,15 +41,13 @@ class HomePage extends StatefulWidget {
 
 class HomePageState extends State<HomePage> {
   late final AudioPlayer player = AudioPlayer();
-  bool isPlaying=false;
+  bool isPlaying = false;
   int pageIndex = 0;
   bool buttonClicked = true;
   void signUserOut() {
     FirebaseAuth.instance.signOut();
   }
 
- 
-  
   final pages = [
     const Page1(), // home page
     const Page2(), // profil page
@@ -70,11 +68,6 @@ class HomePageState extends State<HomePage> {
         ),
         centerTitle: true,
         backgroundColor: Colors.white,
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          signUserOut();
-        },
       ),
       body: pages[pageIndex],
       bottomNavigationBar: buildMyNavBar(context),
@@ -119,25 +112,21 @@ class HomePageState extends State<HomePage> {
           // PLAY AUDİO BUTTON
           IconButton(
             enableFeedback: false,
-            onPressed: () async{
-
-                if(buttonClicked){
-                        await handlePlay();
-                        buttonClicked = false;
-                }else{
-
+            onPressed: () async {
+              if (buttonClicked) {
+                await handlePlay();
+                buttonClicked = false;
+              } else {
                 // fetch audio from Flask then play the audio
-                        if(isPlaying){
-                          player.pause();
-                        }else{
-                          player.play();
-                        }
-                        isPlaying = !isPlaying;
-                        setState((){});
-                } 
+                if (isPlaying) {
+                  player.pause();
+                } else {
+                  player.play();
+                }
+                isPlaying = !isPlaying;
+                setState(() {});
+              }
             },
-
-
             icon: isPlaying
                 ? const Icon(
                     Icons.stop_circle,
@@ -176,10 +165,11 @@ class HomePageState extends State<HomePage> {
     );
   }
 
-  Future<void> handlePlay()async{
+  Future<void> handlePlay() async {
     if (PodcastProperties.mp3 != null) {
-      final duration = await player.setAudioSource(AudioConverter(PodcastProperties.mp3!));  // Load a mp3                
-      player.play();                                  // Play without waiting for completion
+      final duration = await player
+          .setAudioSource(AudioConverter(PodcastProperties.mp3!)); // Load a mp3
+      player.play(); // Play without waiting for completion
       setState(() {
         isPlaying = true;
       });
@@ -201,16 +191,17 @@ class _Page1State extends State<Page1> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body:  Tabbar(onCategorySelected: (category) => handleCategorySelection(category)), // Include the Tabbar widget 
+      body: Tabbar(
+          onCategorySelected: (category) =>
+              handleCategorySelection(category)), // Include the Tabbar widget
     );
   }
 
-   void handleCategorySelection(String category) async{
+  void handleCategorySelection(String category) async {
     print('Selected category in HomePage: $category');
     PodcastProperties.query = category.toLowerCase();
-    }
-
   }
+}
 
 // PROFIL PAGE
 
