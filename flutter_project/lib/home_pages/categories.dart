@@ -17,14 +17,16 @@ class Tabbar extends StatefulWidget {
 
 class _TabbarState extends State<Tabbar> {
   final currentUser = FirebaseAuth.instance.currentUser!;
+  String transcriptText = '';
   String translations = 'Tech,Politics,Economy,Sports';
-  
+
   Future<void> translateCategories(
       String categoriesToTranslate, String translationCountryCode,
-      {bool debug = false}) async {
-    final url =
-        '${PodcastProperties.baseUrl}/translate_categories?categories_to_translate=$categoriesToTranslate&translation_country_code=$translationCountryCode&mode=${debug ? 'debug' : ''}';
-    final response = await http.get(Uri.parse(url));
+      {bool debug = true}) async {
+    PodcastProperties.mode = debug ? 'debug' : '';
+    PodcastProperties.query = categoriesToTranslate;
+    final response =
+        await http.get(Uri.parse(PodcastProperties.getCategoryTranslateURL()));
 
     if (response.statusCode == 200) {
       final jsonResponse = json.decode(response.body);
@@ -32,7 +34,8 @@ class _TabbarState extends State<Tabbar> {
       translations = responsetranslations;
       setState(() {});
     } else {
-      throw Exception('Failed to load translations');
+      //throw Exception('Failed to load translations');
+      print("ERRORRR");
     }
   }
 
@@ -71,9 +74,12 @@ class _TabbarState extends State<Tabbar> {
                         }
                         return TabBar(
                           tabs: tabs,
-                           onTap: (index) {
+                          onTap: (index) async {
                             // Call the onCategorySelected function
-                            widget.onCategorySelected(translations.split(',')[index]);
+                            widget.onCategorySelected(
+                                translations.split(',')[index]);
+                            await handleMP3();
+                            setState(() {});
                           },
                         );
                       }),
@@ -91,23 +97,54 @@ class _TabbarState extends State<Tabbar> {
             ),
           ),
         ),
-        body: const TabBarView(
+        body: TabBarView(
           children: [
-            Center(
-              child: Text("Tech"),
-            ),
-            Center(
-              child: Text("Politics"),
-            ),
-            Center(
-              child: Text("Economy"),
-            ),
-            Center(
-              child: Text("Sports"),
-            ),
+            for (final category in translations.split(','))
+              Center(
+                child: Column(
+                  children: [
+                    Expanded(
+                        child: ListView(
+                            children: [Text(category), FutureBuilder<String>(
+                              future: handleMP3(),
+                              builder: (context, snapshot) {
+                                if(snapshot.hasData) {
+                                  return Text(snapshot.data!);
+                                }
+                                return const Text("Loading...");
+                              }
+                            )]))
+                  ],
+                ),
+              )
           ],
         ),
       ),
     );
+  }
+
+  Future<String> getTranscriptText() async {
+    final uid = FirebaseAuth.instance.currentUser?.uid;
+    http.Response response =
+        await http.get(Uri.parse(PodcastProperties.getTranscriptURL(uid)));
+    if (response.statusCode == 200) {
+      return response.body;
+    } else {
+      return '';
+    }
+  }
+
+  Future<String> handleMP3() async {
+    final uid = FirebaseAuth.instance.currentUser?.uid;
+    http.Response response =
+        await http.get(Uri.parse(PodcastProperties.getURL(uid)));
+
+    if (response.statusCode == 200) {
+      PodcastProperties.mp3 = response.bodyBytes; // Load a mp3
+      return await getTranscriptText();
+    } else {
+      PodcastProperties.mp3 = null;
+      return '';
+    }
   }
 }

@@ -177,13 +177,8 @@ class HomePageState extends State<HomePage> {
   }
 
   Future<void> handlePlay()async{
-    final uid = FirebaseAuth.instance.currentUser?.uid;
-    http.Response response = await http.get(Uri.parse(PodcastProperties.getURL(uid)));
-
-    if (response.statusCode == 200) {
-      print(response);
-      print(response.bodyBytes);
-      final duration = await player.setAudioSource(AudioConverter(response.bodyBytes));  // Load a mp3                
+    if (PodcastProperties.mp3 != null) {
+      final duration = await player.setAudioSource(AudioConverter(PodcastProperties.mp3!));  // Load a mp3                
       player.play();                                  // Play without waiting for completion
       setState(() {
         isPlaying = true;
@@ -193,34 +188,29 @@ class HomePageState extends State<HomePage> {
 }
 
 // HOME PAGE
-class Page1 extends StatelessWidget {
+class Page1 extends StatefulWidget {
   const Page1({Key? key}) : super(key: key);
+
+  @override
+  State<Page1> createState() => _Page1State();
+}
+
+class _Page1State extends State<Page1> {
+  String transcriptText = '';
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: [
-          SizedBox(
-            height: 200, // Adjust the height as needed
-            child: Tabbar(onCategorySelected: (category) => handleCategorySelection(category)), // Include the Tabbar widget here
-          ),
-          Expanded(
-            child: Container(
-              color: Color.fromARGB(255, 246, 243, 217),
-            ),
-          ),
-        ],
-      ),
+      body:  Tabbar(onCategorySelected: (category) => handleCategorySelection(category)), // Include the Tabbar widget 
     );
   }
 
-   void handleCategorySelection(String category) {
+   void handleCategorySelection(String category) async{
     print('Selected category in HomePage: $category');
     PodcastProperties.query = category.toLowerCase();
-    // You can perform any other actions here
+    }
+
   }
-}
 
 // PROFIL PAGE
 
