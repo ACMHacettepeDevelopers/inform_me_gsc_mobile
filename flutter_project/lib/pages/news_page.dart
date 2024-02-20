@@ -20,6 +20,13 @@ class _NewsPageState extends State<NewsPage> {
   String transcriptText = '';
   String translations = 'Tech,Politics,Economy,Sports';
   String category = 'Tech';
+  late Future<String> future;
+
+  @override
+  void initState() {
+    future = translateCategories();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,34 +37,25 @@ class _NewsPageState extends State<NewsPage> {
           child: Column(
             children: [
               Expanded(
-                child: StreamBuilder<DocumentSnapshot>(
-                    stream: FirebaseFirestore.instance
-                        .collection('users')
-                        .doc(currentUser.email)
-                        .snapshots(),
+                child: FutureBuilder<String>(
+                    future: future,
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
-                        final userData =
-                            snapshot.data!.data() as Map<String, dynamic>;
-                        if (userData['country'] != 'England') {
-                          translateCategories(userData['country']);
-                        } else {
-                          translations = 'Tech,Politicis,Economy,Sports';
-                        }
+                        return ListView.builder(
+                            scrollDirection: Axis.horizontal,
+                            padding: const EdgeInsets.all(4),
+                            itemCount: translations.split(',').length,
+                            itemBuilder: (context, index) {
+                              final c = translations.split(',')[index];
+                              return Column(
+                                children: [
+                                  categoryButton(context, c),
+                                  const SizedBox(width: 16),
+                                ],
+                              );
+                            });
                       }
-                      return ListView.builder(
-                          scrollDirection: Axis.horizontal,
-                          padding: const EdgeInsets.all(4),
-                          itemCount: translations.split(',').length,
-                          itemBuilder: (context, index) {
-                            final c = translations.split(',')[index];
-                            return Column(
-                              children: [
-                                categoryButton(context, c),
-                                const SizedBox(width: 16),
-                              ],
-                            );
-                          });
+                      return const Center(child: CircularProgressIndicator());
                     }),
               ),
               const Padding(
@@ -106,8 +104,13 @@ class _NewsPageState extends State<NewsPage> {
 
   Widget newsWidget() {
     return ListView(
+      padding: const EdgeInsets.all(16),
       children: [
-        Text(category),
+        Text(
+          category,
+          style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
+        ),
+        const Divider(),
         FutureBuilder<String>(
             future: handleMP3(),
             builder: (context, snapshot) {
@@ -127,22 +130,34 @@ class _NewsPageState extends State<NewsPage> {
     setState(() {});
   }
 
-  Future<void> translateCategories(String translationCountryCode,
-      {bool debug = true}) async {
-    PodcastProperties.mode = debug ? 'debug' : '';
-    PodcastProperties.query = translations;
-    final response =
-        await http.get(Uri.parse(PodcastProperties.getCategoryTranslateURL()));
+  Future<String> translateCategories({bool debug = true}) async {
+    final user = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(currentUser.email)
+        .get();
+    final userCountry = user.data()!['country'];
+    PodcastProperties.country = 'TR';
+    if (userCountry != 'US') {
+      PodcastProperties.mode = debug ? 'debug' : '';
+      PodcastProperties.query = translations;
+      final response = await http
+          .get(Uri.parse(PodcastProperties.getCategoryTranslateURL()));
 
-    if (response.statusCode == 200) {
-      final jsonResponse = json.decode(response.body);
-      final responsetranslations = jsonResponse['translations'];
-      translations = responsetranslations;
-      setState(() {});
+      if (response.statusCode == 200) {
+        final jsonResponse = json.decode(response.body);
+        final responsetranslations = jsonResponse['translations'];
+        translations = responsetranslations;
+        setState(() {});
+        return responsetranslations;
+      } else {
+        //throw Exception('Failed to load translations');
+        print("ERRORRR");
+      }
     } else {
-      //throw Exception('Failed to load translations');
-      print("ERRORRR");
+      translations = 'Tech,Politicis,Economy,Sports';
+      setState(() {});
     }
+    return '';
   }
 
   Future<String> getTranscriptText() async {
