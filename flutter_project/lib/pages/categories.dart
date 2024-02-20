@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-import 'package:loginpage/podcast_properties.dart';
+import '../podcast_properties.dart';
 
 class Tabbar extends StatefulWidget {
   final Function(String) onCategorySelected;
@@ -104,16 +104,17 @@ class _TabbarState extends State<Tabbar> {
                 child: Column(
                   children: [
                     Expanded(
-                        child: ListView(
-                            children: [Text(category), FutureBuilder<String>(
-                              future: handleMP3(),
-                              builder: (context, snapshot) {
-                                if(snapshot.hasData) {
-                                  return Text(snapshot.data!);
-                                }
-                                return const Text("Loading...");
-                              }
-                            )]))
+                        child: ListView(children: [
+                      Text(category),
+                      FutureBuilder<String>(
+                          future: handleMP3(),
+                          builder: (context, snapshot) {
+                            if (snapshot.hasData) {
+                              return Text(snapshot.data!);
+                            }
+                            return const Text("Loading...");
+                          })
+                    ]))
                   ],
                 ),
               )

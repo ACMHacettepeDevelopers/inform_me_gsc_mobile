@@ -1,19 +1,15 @@
-// ignore_for_file: prefer_const_constructors
-
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:http/http.dart' as http;
+import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
 
 import '../audio_converter.dart';
 import '../podcast_properties.dart';
-import 'categories.dart';
+import 'news_page.dart';
+import 'profile_page.dart';
 
 class Home extends StatelessWidget {
   const Home({super.key});
 
-  // This widget is the root of the application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -49,8 +45,8 @@ class HomePageState extends State<HomePage> {
   }
 
   final pages = [
-    const Page1(), // home page
-    const Page2(), // profil page
+    const NewsPage(), // home page
+    const ProfilePage(), // profil page
   ];
 
   @override
@@ -144,9 +140,7 @@ class HomePageState extends State<HomePage> {
           IconButton(
             enableFeedback: false,
             onPressed: () {
-              setState(() {
-                pageIndex = 1;
-              });
+              setState(() => pageIndex = 1);
             },
             icon: pageIndex == 1
                 ? const Icon(
@@ -167,116 +161,12 @@ class HomePageState extends State<HomePage> {
 
   Future<void> handlePlay() async {
     if (PodcastProperties.mp3 != null) {
-      final duration = await player
+      await player
           .setAudioSource(AudioConverter(PodcastProperties.mp3!)); // Load a mp3
       player.play(); // Play without waiting for completion
       setState(() {
         isPlaying = true;
       });
     }
-  }
-}
-
-// HOME PAGE
-class Page1 extends StatefulWidget {
-  const Page1({Key? key}) : super(key: key);
-
-  @override
-  State<Page1> createState() => _Page1State();
-}
-
-class _Page1State extends State<Page1> {
-  String transcriptText = '';
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Tabbar(
-          onCategorySelected: (category) =>
-              handleCategorySelection(category)), // Include the Tabbar widget
-    );
-  }
-
-  void handleCategorySelection(String category) async {
-    print('Selected category in HomePage: $category');
-    PodcastProperties.query = category.toLowerCase();
-  }
-}
-
-// PROFIL PAGE
-
-class Page2 extends StatelessWidget {
-  const Page2({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    final currentUser = FirebaseAuth.instance.currentUser!;
-
-    // Sign user out method
-    void signUserOut() {
-      FirebaseAuth.instance.signOut();
-    }
-
-    return Container(
-      color: const Color.fromARGB(255, 246, 243, 217),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          StreamBuilder<DocumentSnapshot>(
-            stream: FirebaseFirestore.instance
-                .collection('users')
-                .doc(currentUser.email)
-                .snapshots(),
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                final userData = snapshot.data!.data() as Map<String, dynamic>;
-                return Column(
-                  children: [
-                    Center(
-                      child: Text(
-                        "Logged in as\n ${currentUser.email} \ncountry is ${userData['country']}",
-                        style: TextStyle(
-                          color: Color.fromARGB(255, 228, 83, 10),
-                          fontSize: 20,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    ),
-                  ],
-                );
-              } else if (snapshot.hasError) {
-                return Center(
-                  child: Text('Error${snapshot.error}'),
-                );
-              }
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            },
-          ),
-
-          SizedBox(
-              height: 50), // Add some space between the button and the text
-          Container(
-            padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
-            child: ElevatedButton.icon(
-              onPressed: () {
-                signUserOut();
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.white,
-                foregroundColor: const Color.fromRGBO(241, 82, 32, 1),
-                padding: EdgeInsets.fromLTRB(50, 0, 50, 0),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-              ),
-              icon: Icon(Icons.logout_outlined),
-              label: Text('Log Out'),
-            ),
-          ),
-        ],
-      ),
-    );
   }
 }

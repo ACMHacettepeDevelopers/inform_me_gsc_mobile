@@ -1,7 +1,7 @@
-import 'package:http/http.dart' as http;
-import 'package:audioplayers/audioplayers.dart';
-import 'package:path_provider/path_provider.dart';
 import 'dart:io';
+
+import 'package:http/http.dart' as http;
+import 'package:path_provider/path_provider.dart';
 
 Future<void> fetchPodcast() async {
   final response = await http.get(Uri.parse('http://127.0.0.1:5000/create_podcast?country=US&query=economy&count=10&podcast_file_name=podcast.mp3&mode=debug'));

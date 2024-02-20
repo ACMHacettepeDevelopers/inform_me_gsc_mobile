@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:csc_picker/csc_picker.dart';
 import 'package:loginpage/FireStore.dart';
 import 'package:loginpage/firebase/google_service.dart';
-import 'package:loginpage/home_pages/home_page.dart';
+import 'package:loginpage/pages/home_page.dart';
 import 'country_picker.dart'; // Import the CountryPicker widget
 
 class SignUpPage extends StatefulWidget {
