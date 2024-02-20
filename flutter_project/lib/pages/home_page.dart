@@ -7,29 +7,8 @@ import '../podcast_properties.dart';
 import 'news_page.dart';
 import 'profile_page.dart';
 
-class Home extends StatelessWidget {
-  const Home({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Bottom NavBar',
-      theme: ThemeData(
-        primaryColor: const Color.fromARGB(255, 228, 83, 10),
-        splashColor: Colors.transparent,
-        highlightColor: Colors.transparent,
-        hoverColor: Colors.transparent,
-      ),
-      debugShowCheckedModeBanner: false,
-      home: const HomePage(selectedCountry: ''),
-    );
-  }
-}
-
 class HomePage extends StatefulWidget {
-  final String selectedCountry;
-
-  const HomePage({super.key, this.selectedCountry = ''});
+  const HomePage({super.key});
 
   @override
   HomePageState createState() => HomePageState();

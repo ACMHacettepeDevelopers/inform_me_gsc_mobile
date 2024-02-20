@@ -22,6 +22,14 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      title: 'Inform Me!',
+      theme: ThemeData(
+        primaryColor: const Color.fromARGB(255, 228, 83, 10),
+        splashColor: Colors.transparent,
+        highlightColor: Colors.transparent,
+        hoverColor: Colors.transparent,
+      ),
+      debugShowCheckedModeBanner: false,
       home: AuthService(),
       routes: {
         '/starterpage': (context) => StarterPage(),
