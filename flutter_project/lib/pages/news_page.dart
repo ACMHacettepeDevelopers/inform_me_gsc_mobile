@@ -5,8 +5,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:loginpage/utils/custom_text_style.dart';
 
+import '../utils/custom_text_style.dart';
 import '../podcast_properties.dart';
 
 class NewsPage extends StatefulWidget {
@@ -17,10 +17,11 @@ class NewsPage extends StatefulWidget {
 }
 
 class _NewsPageState extends State<NewsPage> {
+  final TextEditingController searchController = TextEditingController();
   final currentUser = FirebaseAuth.instance.currentUser!;
   String transcriptText = '';
   String translations = 'Tech,Politics,Economy,Sports';
-  String category = 'Tech';
+  String category = '';
   late Future<String> future;
 
   @override
@@ -56,23 +57,45 @@ class _NewsPageState extends State<NewsPage> {
                               );
                             });
                       }
-                      return const Center(child: CircularProgressIndicator());
+                      return Center(
+                        child: CircularProgressIndicator(
+                            color: Theme.of(context).primaryColor),
+                      );
                     }),
               ),
-              const Padding(
-                padding: EdgeInsets.all(8.0),
-                child: TextField(
-                  decoration: InputDecoration(
-                    hintText: 'Search',
-                    prefixIcon: Icon(Icons.search),
-                  ),
-                ),
-              ),
+              if (category.isNotEmpty) searchWidget(),
             ],
           ),
         ),
       ),
-      body: newsWidget(),
+      body: category.isNotEmpty ? newsWidget() : const SizedBox(),
+    );
+  }
+
+  Padding searchWidget() {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Row(
+        children: [
+          Expanded(
+            child: TextField(
+              decoration: const InputDecoration(hintText: 'Search'),
+              controller: searchController,
+            ),
+          ),
+          IconButton(
+              onPressed: () async {
+                if (searchController.text.isNotEmpty) {
+                  handleCategorySelection(searchController.text);
+                  await handleMP3();
+                }
+              },
+              icon: Icon(
+                Icons.search,
+                color: Theme.of(context).primaryColor,
+              ))
+        ],
+      ),
     );
   }
 
@@ -95,11 +118,7 @@ class _NewsPageState extends State<NewsPage> {
                   : Colors.black),
         ),
       ),
-      onTap: () async {
-        handleCategorySelection(c);
-        await handleMP3();
-        setState(() {});
-      },
+      onTap: () => handleCategorySelection(c),
     );
   }
 
@@ -109,17 +128,12 @@ class _NewsPageState extends State<NewsPage> {
       children: [
         Text(category, style: CustomTextStyle.titleStyle),
         const Divider(),
-        FutureBuilder<String>(
-            future: handleMP3(),
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                return Text(
-                  snapshot.data!,
-                  style: CustomTextStyle.transcriptStyle,
-                );
-              }
-              return const Text("Loading...");
-            })
+        transcriptText != ''
+            ? Text(
+                transcriptText,
+                style: CustomTextStyle.transcriptStyle,
+              )
+            : const Text("Loading..."),
       ],
     );
   }
@@ -129,6 +143,7 @@ class _NewsPageState extends State<NewsPage> {
     PodcastProperties.query = selectedCategory.toLowerCase();
     category = selectedCategory;
     setState(() {});
+    handleMP3();
   }
 
   Future<String> translateCategories({bool debug = true}) async {
@@ -136,9 +151,12 @@ class _NewsPageState extends State<NewsPage> {
         .collection('users')
         .doc(currentUser.email)
         .get();
+
     final userCountry = user.data()!['country'];
-    PodcastProperties.country = 'TR';
+    PodcastProperties.country = userCountry;
+
     if (userCountry != 'US') {
+      // if US do not translate
       PodcastProperties.mode = debug ? 'debug' : '';
       PodcastProperties.query = translations;
       final response = await http
@@ -148,11 +166,14 @@ class _NewsPageState extends State<NewsPage> {
         final jsonResponse = json.decode(response.body);
         final responsetranslations = jsonResponse['translations'];
         translations = responsetranslations;
+        category = translations.split(',')[0];
+        PodcastProperties.query = category.toLowerCase();
         setState(() {});
+        handleMP3();
         return responsetranslations;
       } else {
         //throw Exception('Failed to load translations');
-        print("ERRORRR");
+        debugPrint("ERRORRR");
       }
     } else {
       translations = 'Tech,Politicis,Economy,Sports';
@@ -173,18 +194,20 @@ class _NewsPageState extends State<NewsPage> {
     }
   }
 
-  Future<String> handleMP3() async {
-    if (category.isEmpty) return '';
+  Future<void> handleMP3() async {
+    transcriptText = '';
+    setState(() {});
+    if (category.isEmpty) return;
     final uid = FirebaseAuth.instance.currentUser?.uid;
     http.Response response =
         await http.get(Uri.parse(PodcastProperties.getURL(uid)));
 
     if (response.statusCode == 200) {
       PodcastProperties.mp3 = response.bodyBytes; // Load a mp3
-      return await getTranscriptText();
+      transcriptText = await getTranscriptText();
+      setState(() {});
     } else {
       PodcastProperties.mp3 = null;
-      return '';
     }
   }
 }
