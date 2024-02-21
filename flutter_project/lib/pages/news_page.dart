@@ -69,8 +69,7 @@ class _NewsPageState extends State<NewsPage> {
                       );
                     }),
               ),
-              //if (category.isNotEmpty) searchWidget(),
-              searchWidget(),
+              if (category.isNotEmpty) searchWidget(),
             ],
           ),
         ),
@@ -104,7 +103,6 @@ class _NewsPageState extends State<NewsPage> {
               onPressed: () async {
                 if (searchController.text.isNotEmpty) {
                   handleCategorySelection(searchController.text);
-                  await handleMP3();
                 }
               },
               icon: Icon(
@@ -226,7 +224,7 @@ class _NewsPageState extends State<NewsPage> {
     PodcastProperties.query = selectedCategory.toLowerCase();
     category = selectedCategory;
     setState(() {});
-    handleMP3();
+    await handleMP3();
   }
 
   // HTTP REQUESTS
@@ -283,8 +281,7 @@ class _NewsPageState extends State<NewsPage> {
     setState(() {});
     if (category.isEmpty) return;
     final uid = FirebaseAuth.instance.currentUser?.uid;
-    http.Response response =
-        await http.get(Uri.parse(PodcastProperties.getURL(uid)));
+    final response = await http.get(Uri.parse(PodcastProperties.getURL(uid)));
 
     if (response.statusCode == 200) {
       PodcastProperties.mp3 = response.bodyBytes; // Load a mp3
@@ -305,8 +302,10 @@ class _NewsPageState extends State<NewsPage> {
       );
 
       if (response.statusCode == 200) {
+        debugPrint(response.body);
         if (!mounted) return;
-        showSnackbar(context, 'MP3 Yüklendi');
+        debugPrint('MP3 Yüklendi');
+        await getTextFromSpeech();
       } else {
         if (!mounted) return;
         showSnackbar(context, 'MP3 Yüklenirken bi hata oluştu');
@@ -314,5 +313,19 @@ class _NewsPageState extends State<NewsPage> {
     }
   }
 
-  Future<void> getTextFromSpeech() async {}
+  Future<void> getTextFromSpeech() async {
+    if (isComplete && recordFilePath != '') {
+      final uid = FirebaseAuth.instance.currentUser?.uid;
+      final response =
+          await http.get(Uri.parse(PodcastProperties.getSpeechToTextURL(uid)));
+
+      if (response.statusCode == 200) {
+        debugPrint(response.body);
+        final query = response.body.split(':')[1].split('}')[0];
+        handleCategorySelection(query);
+      } else {
+        transcriptText = 'Speech Error!';
+      }
+    }
+  }
 }
