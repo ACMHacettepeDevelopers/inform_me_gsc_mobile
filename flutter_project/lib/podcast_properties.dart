@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 
 class PodcastProperties {
-  static const String baseUrl = 'http://10.100.164.91:5000';
+  static const String baseUrl = 'http://10.225.253.73:5000';
   static String country = "US";
   static String query = "economy";
   static String count = "10";

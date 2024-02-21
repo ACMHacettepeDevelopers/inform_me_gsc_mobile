@@ -63,8 +63,7 @@ class _NewsPageState extends State<NewsPage> {
                       );
                     }),
               ),
-              //if (category.isNotEmpty) searchWidget(),
-              searchWidget(),
+              if (category.isNotEmpty) searchWidget(),
             ],
           ),
         ),
@@ -77,7 +76,7 @@ class _NewsPageState extends State<NewsPage> {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           IconButton(
             onPressed: () {
