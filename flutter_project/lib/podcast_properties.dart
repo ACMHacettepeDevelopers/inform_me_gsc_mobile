@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 
 class PodcastProperties {
-  static const String baseUrl = 'http://10.225.253.73:5000';
+  static const String baseUrl = 'http://10.100.157.252:5000';
   static String country = "US";
   static String query = "economy";
   static String count = "10";
@@ -24,7 +24,7 @@ class PodcastProperties {
     return '$baseUrl/upload_mp3?podcast_file_name=$uid';
   }
 
-  static getSpeechToTextURL() {
-    return '$baseUrl/speech_to_text?country_code=$country';
+  static getSpeechToTextURL(uid) {
+    return '$baseUrl/speech_to_text?country_code=$country&podcast_file_name=$uid';
   }
 }
