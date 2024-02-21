@@ -62,7 +62,7 @@ class HomePageState extends State<HomePage> {
         ),
       ),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           IconButton(
             enableFeedback: false,
