@@ -93,13 +93,15 @@ class HomePageState extends State<HomePage> {
                 buttonClicked = false;
               } else {
                 // fetch audio from Flask then play the audio
-                if (isPlaying) {
-                  player.pause();
-                } else {
-                  player.play();
+                if (player.audioSource != null) {
+                  if (isPlaying) {
+                    player.pause();
+                  } else {
+                    player.play();
+                  }
+                  isPlaying = !isPlaying;
+                  setState(() {});
                 }
-                isPlaying = !isPlaying;
-                setState(() {});
               }
             },
             icon: isPlaying
