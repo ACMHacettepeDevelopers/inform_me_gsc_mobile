@@ -77,6 +77,12 @@ class _NewsPageState extends State<NewsPage> {
       padding: const EdgeInsets.all(8.0),
       child: Row(
         children: [
+          IconButton(
+            onPressed: () {
+              showSnackbar(context, 'Say something');
+            },
+            icon: Icon(Icons.mic),
+          ),
           Expanded(
             child: TextField(
               decoration: const InputDecoration(hintText: 'Search'),
@@ -120,6 +126,14 @@ class _NewsPageState extends State<NewsPage> {
       ),
       onTap: () => handleCategorySelection(c),
     );
+  }
+
+  void showSnackbar(BuildContext context, String message) {
+    final snackBar = SnackBar(
+      content: Text(message),
+      duration: Duration(seconds: 2),
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 
   Widget newsWidget() {
