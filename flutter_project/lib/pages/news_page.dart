@@ -1,7 +1,11 @@
 // HOME PAGE
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:record_mp3/record_mp3.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -23,6 +27,8 @@ class _NewsPageState extends State<NewsPage> {
   String translations = 'Tech,Politics,Economy,Sports';
   String category = '';
   late Future<String> future;
+  String recordFilePath = '';
+  bool isComplete = true;
 
   @override
   void initState() {
@@ -81,9 +87,12 @@ class _NewsPageState extends State<NewsPage> {
         children: [
           IconButton(
             onPressed: () {
-              showSnackbar(context, 'Say something');
+              handleSpeechToText();
             },
-            icon: Icon(Icons.mic),
+            icon: Icon(
+              isComplete ? Icons.mic : Icons.stop_circle_outlined,
+              color: Theme.of(context).primaryColor,
+            ),
           ),
           Expanded(
             child: TextField(
@@ -154,14 +163,73 @@ class _NewsPageState extends State<NewsPage> {
     );
   }
 
+  // SPEECH TO TEXT
+  void handleSpeechToText() async {
+    if (isComplete) {
+      showSnackbar(context, "Recording...");
+      await startRecord();
+    } else {
+      await stopRecord();
+      showSnackbar(context, "Recording completed, uploading mp3...");
+      await uploadMP3();
+      showSnackbar(context, "Recording completed, searching...");
+    }
+  }
+
+  Future<void> startRecord() async {
+    bool hasPermission = await checkPermission();
+    if (hasPermission) {
+      recordFilePath = await getFilePath();
+      RecordMp3.instance.start(recordFilePath, (type) {});
+      isComplete = false;
+      setState(() {});
+    } else {
+      debugPrint("No microphone permission");
+    }
+    setState(() {});
+  }
+
+  Future<void> stopRecord() async {
+    bool s = RecordMp3.instance.stop();
+    if (s) {
+      showSnackbar(context, "Record complete");
+      isComplete = true;
+      setState(() {});
+      await getTextFromSpeech();
+    }
+  }
+
+  Future<String> getFilePath() async {
+    String uid = FirebaseAuth.instance.currentUser!.uid;
+    Directory storageDirectory = await getApplicationDocumentsDirectory();
+    String sdPath = "${storageDirectory.path}/record";
+    var d = Directory(sdPath);
+    if (!d.existsSync()) {
+      d.createSync(recursive: true);
+    }
+    return "$sdPath/test_$uid.mp3";
+  }
+
+  Future<bool> checkPermission() async {
+    if (!await Permission.microphone.isGranted) {
+      PermissionStatus status = await Permission.microphone.request();
+      if (status != PermissionStatus.granted) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  // CATEGORY SELECTION WITH BUTTONS
   void handleCategorySelection(String selectedCategory) async {
-    print('Selected category in HomePage: $selectedCategory');
+    debugPrint('Selected category in HomePage: $selectedCategory');
     PodcastProperties.query = selectedCategory.toLowerCase();
     category = selectedCategory;
     setState(() {});
     handleMP3();
   }
 
+  // HTTP REQUESTS
   Future<String> translateCategories({bool debug = true}) async {
     final user = await FirebaseFirestore.instance
         .collection('users')
@@ -226,4 +294,25 @@ class _NewsPageState extends State<NewsPage> {
       PodcastProperties.mp3 = null;
     }
   }
+
+  Future<void> uploadMP3() async {
+    if (isComplete && recordFilePath != '') {
+      final uid = FirebaseAuth.instance.currentUser?.uid;
+      final recordBase64 = base64Encode(File(recordFilePath).readAsBytesSync());
+      final response = await http.post(
+        Uri.parse(PodcastProperties.getMP3UploadURL(uid)),
+        headers: {'mp3': recordBase64},
+      );
+
+      if (response.statusCode == 200) {
+        if (!mounted) return;
+        showSnackbar(context, 'MP3 Yüklendi');
+      } else {
+        if (!mounted) return;
+        showSnackbar(context, 'MP3 Yüklenirken bi hata oluştu');
+      }
+    }
+  }
+
+  Future<void> getTextFromSpeech() async {}
 }
