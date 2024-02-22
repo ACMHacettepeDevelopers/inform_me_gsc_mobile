@@ -228,7 +228,7 @@ class _NewsPageState extends State<NewsPage> {
   }
 
   // HTTP REQUESTS
-  Future<String> translateCategories({bool debug = true}) async {
+  Future<String> translateCategories({bool debug = false}) async {
     final user = await FirebaseFirestore.instance
         .collection('users')
         .doc(currentUser.email)
@@ -239,7 +239,7 @@ class _NewsPageState extends State<NewsPage> {
 
     if (userCountry != 'US') {
       // if US do not translate
-      PodcastProperties.mode = debug ? 'debug' : '';
+      PodcastProperties.mode = debug ? 'debug' : 'release';
       PodcastProperties.query = translations;
       final response = await http
           .get(Uri.parse(PodcastProperties.getCategoryTranslateURL()));
