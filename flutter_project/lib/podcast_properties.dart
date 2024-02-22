@@ -1,11 +1,11 @@
 import 'package:flutter/foundation.dart';
 
 class PodcastProperties {
-  static const String baseUrl = 'http://10.193.45.20:5000';
+  static const String baseUrl = 'http://10.225.90.249:5000';
   static String country = "US";
   static String query = "economy";
   static String count = "10";
-  static String mode = "debug";
+  static String mode = "release";
   static Uint8List? mp3;
 
   static getURL(uid) {
