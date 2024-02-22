@@ -142,6 +142,7 @@ class HomePageState extends State<HomePage> {
 
   Future<void> handlePlay() async {
     if (PodcastProperties.mp3 != null) {
+      print(PodcastProperties.mp3);
       await player
           .setAudioSource(AudioConverter(PodcastProperties.mp3!)); // Load a mp3
       player.play(); // Play without waiting for completion
