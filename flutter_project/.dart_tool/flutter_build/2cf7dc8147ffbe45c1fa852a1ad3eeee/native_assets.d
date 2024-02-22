@@ -1,1 +1,0 @@
- /Users/melihsefa/Documents/GitHub/inform_me_gsc/flutter_project/.dart_tool/flutter_build/2cf7dc8147ffbe45c1fa852a1ad3eeee/native_assets.yaml: 

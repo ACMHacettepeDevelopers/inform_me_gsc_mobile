@@ -6,7 +6,7 @@
 
 .flutter-plugins
 .flutter-plugins-dependencies
-.dart_tool/
+.dart_tool/*
 
 # Python
 __pycache__/
