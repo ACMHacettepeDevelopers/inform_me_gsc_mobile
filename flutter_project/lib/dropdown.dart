@@ -51,17 +51,32 @@ class _DropDownCountriesState extends State<DropDownCountries> {
     "United States": "US",
   };
 
+  String selectedValue = 'Turkey';
+
   @override
   Widget build(BuildContext context) {
-    return DropdownMenu<String>(
-        initialSelection: 'Turkey',
-        dropdownMenuEntries: countryToAlpha2.keys
-            .toList()
-            .map((value) =>
-                DropdownMenuEntry<String>(value: value, label: value))
-            .toList(),
-        onSelected: (value) {
-          widget.onSelected(value, countryToAlpha2[value]);
-        });
+    return Container(
+      margin: const EdgeInsets.fromLTRB(50, 3, 50, 5),
+      padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
+      width: double.maxFinite,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        border: Border.all(color: Colors.orange),
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: DropdownButton<String>(
+          isExpanded: true,
+          value: selectedValue,
+          items: countryToAlpha2.keys
+              .toList()
+              .map((value) =>
+                  DropdownMenuItem<String>(value: value, child: Text(value)))
+              .toList(),
+          onChanged: (value) {
+            widget.onSelected(value, countryToAlpha2[value]);
+            selectedValue = value!;
+            setState(() {});
+          }),
+    );
   }
 }
