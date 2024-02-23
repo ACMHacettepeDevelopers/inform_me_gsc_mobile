@@ -21,8 +21,10 @@ class _LogInPageState extends State<LogInPage> {
         email: eMailController.text,
         password: passwordController.text,
       );
+      if (!mounted) return;
       showSomeDialog(
           'Sign In Successful', 'You have successfully signed in.', context);
+      Navigator.pushReplacementNamed(context, '/starterpage');
     } on FirebaseAuthException catch (e) {
       showSomeDialog('There is an error',
           'E-mail or password incorrect, try again.', context);

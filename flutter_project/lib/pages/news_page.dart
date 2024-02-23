@@ -103,6 +103,8 @@ class _NewsPageState extends State<NewsPage> {
               onPressed: () async {
                 if (searchController.text.isNotEmpty) {
                   handleCategorySelection(searchController.text);
+                  searchController.text = '';
+                  setState(() {});
                 }
               },
               icon: Icon(
