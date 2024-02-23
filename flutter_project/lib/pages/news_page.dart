@@ -321,7 +321,7 @@ class _NewsPageState extends State<NewsPage> {
 
       if (response.statusCode == 200) {
         debugPrint(response.body);
-        final query = response.body.split(':')[1].split('}')[0];
+        final query = jsonDecode(response.body)['text'];
         handleCategorySelection(query);
       } else {
         transcriptText = 'Speech Error!';
