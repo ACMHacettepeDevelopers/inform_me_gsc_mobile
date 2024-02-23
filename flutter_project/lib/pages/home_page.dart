@@ -1,6 +1,7 @@
 import 'dart:ffi';
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
 
@@ -18,6 +19,7 @@ class HomePage extends StatefulWidget {
 
 class HomePageState extends State<HomePage> {
   late final AudioPlayer player = AudioPlayer();
+  Uint8List? _mp3;
   bool isPlaying = false;
   int pageIndex = 0;
   bool buttonClicked = true;
@@ -90,7 +92,8 @@ class HomePageState extends State<HomePage> {
           IconButton(
             enableFeedback: false,
             onPressed: () async {
-              if (buttonClicked) {
+              if (_mp3 != PodcastProperties.mp3) {
+                _mp3 = PodcastProperties.mp3;
                 await handlePlay();
                 buttonClicked = false;
               } else {
@@ -144,6 +147,7 @@ class HomePageState extends State<HomePage> {
 
   Future<void> handlePlay() async {
     if (PodcastProperties.mp3 != null) {
+      print(PodcastProperties.mp3);
       await player
           .setAudioSource(AudioConverter(PodcastProperties.mp3!)); // Load a mp3
       player.play(); // Play without waiting for completion

@@ -6,7 +6,7 @@ import 'package:country_picker/country_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:csc_picker/csc_picker.dart';
-import 'package:loginpage/utils/FireStore.dart';
+import 'package:loginpage/dropdown.dart';
 import 'package:loginpage/firebase/google_service.dart';
 import 'package:loginpage/pages/home_page.dart';
 import 'country_picker.dart'; // Import the CountryPicker widget
@@ -231,18 +231,15 @@ class _SignUpPageState extends State<SignUpPage> {
                     ),
                   ),
                 ),
-
-                // country picker
-                CountryPicker(
-                  onCountryChanged: (value, alph2) {
-                    setState(() {
-                      selectedCountry = value;
-                      print("sign up page - selcted country: $selectedCountry");
-                      countryAlp2 = alph2;
-                    });
+                DropDownCountries(
+                  onSelected: (value, code) {
+                    setState(
+                      () {
+                        countryAlp2 = code!;
+                      },
+                    );
                   },
                 ),
-
                 Container(
                   padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
                   child: ElevatedButton.icon(
@@ -282,7 +279,6 @@ class _SignUpPageState extends State<SignUpPage> {
                 SizedBox(
                   height: 100,
                 ),
-
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [

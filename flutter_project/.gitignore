@@ -4,6 +4,10 @@
 # IntelliJ related
 .idea/
 
+.flutter-plugins
+.flutter-plugins-dependencies
+.dart_tool/
+
 # Python
 __pycache__/
 *.py[cod]

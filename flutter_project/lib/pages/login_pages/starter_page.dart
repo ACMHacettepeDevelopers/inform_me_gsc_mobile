@@ -14,7 +14,7 @@ class _StarterPageState extends State<StarterPage> {
         body: Stack(
       children: [
         Container(
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             image: DecorationImage(
               image: AssetImage('assets/images/12.png'),
               fit: BoxFit.cover,
@@ -23,13 +23,13 @@ class _StarterPageState extends State<StarterPage> {
         ),
         Column(
           children: [
-            SizedBox(
+            const SizedBox(
               height: 520,
             ),
             Center(
               child: ElevatedButton.icon(
                 onPressed: () {},
-                icon: Icon(
+                icon: const Icon(
                   Icons.login,
                 ),
                 label: Text('Log In'),
@@ -46,10 +46,10 @@ class _StarterPageState extends State<StarterPage> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                SizedBox(
+                const SizedBox(
                   height: 30,
                 ),
-                Text(
+                const Text(
                   'Not a member? ',
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
