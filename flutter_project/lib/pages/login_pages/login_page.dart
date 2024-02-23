@@ -24,7 +24,7 @@ class _LogInPageState extends State<LogInPage> {
       if (!mounted) return;
       showSomeDialog(
           'Sign In Successful', 'You have successfully signed in.', context);
-      Navigator.pushReplacementNamed(context, '/starterpage');
+      Navigator.pushReplacementNamed(context, '/homepage');
     } on FirebaseAuthException catch (e) {
       showSomeDialog('There is an error',
           'E-mail or password incorrect, try again.', context);
