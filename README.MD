@@ -35,6 +35,11 @@ It aims to provide latest news to the visually impaired and it also serves as a 
 - Utilizes voice recognition technology, allowing users to search for news simply by speaking. Making it easy for the visually impaired to interact with our app.
 - Multi-lingual support. Supports more than 30 languages (some supported languages are in it's development state, soon to be finalized)
 
+<p align="center">
+  <img src="flutter_project/assets/news_screenshots/sports_en.png" alt="Podcast Generator">
+<p align="center">
+  <img src="flutter_project/assets/news_screenshots/tech_tr.jpg" alt="Podcast Generator">
+
 ## Getting Started
 
 Follow these steps to get the app up and running on your local machine.
