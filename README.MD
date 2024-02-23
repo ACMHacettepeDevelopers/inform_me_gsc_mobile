@@ -53,12 +53,19 @@ Follow these steps to get the app up and running on your local machine.
   ```bash
   git clone https://github.com/ACMHacettepeDevelopers/inform_me_gsc_mobile
   ```
-
 - Navigate to the project directory:
  
   ```bash
   cd flutter_project
   ```
+  ```bash
+  # Change the base url with your hosting url
+  cd lib/podcast_properties.dart
+  ```
+  
+  ```bash
+    cd ..
+
 - Install Dependencies:
  
   ```bash
