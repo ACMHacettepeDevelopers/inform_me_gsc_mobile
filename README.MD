@@ -36,9 +36,10 @@ It aims to provide latest news to the visually impaired and it also serves as a 
 - Multi-lingual support. Supports more than 30 languages (some supported languages are in it's development state, soon to be finalized)
 
 <p align="center">
-  <img src="flutter_project/assets/news_screenshots/sports_en.png" alt="Podcast Generator" width="400">
-  <img src="flutter_project/assets/news_screenshots/tech_tr.jpg" alt="Podcast Generator" width="400">
+  <img src="flutter_project/assets/news_screenshots/sports_en.png" alt="Podcast Generator" style="height: 300px; object-fit: contain;">
+  <img src="flutter_project/assets/news_screenshots/tech_tr.jpg" alt="Podcast Generator" style="height: 300px; object-fit: contain;">
 </p>
+
 
 ## Getting Started
 
