@@ -1,7 +1,8 @@
-div align="center">
-  <img src="https://github.com/ACMHacettepeDevelopers/inform_me_gsc_mobile/blob/main/flutter_project/assets/images/5.png" width=280px style="margin-bottom: 16px"/>
-  <p><i> Multi-lingual podcast generator that provides latest news to the visually impaired and serves as a practical tool for everyone! </i></p>
-</div>
+<p align="center">
+  <img src="https://github.com/ACMHacettepeDevelopers/inform_me_gsc_mobile/blob/main/flutter_project/assets/images/5.png" width="280px" alt="Podcast Generator">
+  <br>
+  <i>Multi-lingual podcast generator that provides latest news to the visually impaired and serves as a practical tool for everyone!</i>
+</p>
 
 <div align="center" style="display:flex; gap: 8px; justify-content: center; margin-bottom: 16px">
 
