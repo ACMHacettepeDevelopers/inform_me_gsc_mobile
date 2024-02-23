@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:loginpage/pages/home_page.dart';
 import 'firebase/firebase_options.dart';
 import 'pages/login_pages/auth_service.dart';
 import 'pages/login_pages/login_page.dart';
@@ -32,7 +33,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       home: AuthService(),
       routes: {
-        '/starterpage': (context) => StarterPage(),
+        '/homepage': (context) => HomePage(),
         '/loginpage': (context) => LogInPage(),
         '/signuppage': (context) => SignUpPage(),
       },
