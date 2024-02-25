@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://github.com/ACMHacettepeDevelopers/inform_me_gsc_mobile/blob/main/flutter_project/assets/images/5.png" width="280px" alt="Podcast Generator">
+  <img src="flutter_project/assets/images/logo_circle.jpg" width="280px" alt="Podcast Generator">
   <br>
   <i>Multi-lingual podcast generator that provides latest news to the visually impaired and serves as a practical tool for everyone!</i>
 </p>
@@ -7,6 +7,7 @@
 <div align="center" style="display:flex; gap: 8px; justify-content: center; margin-bottom: 16px">
 
 ![Python](https://img.shields.io/badge/Python-%233776AB.svg?style=for-the-badge&logo=Python&logoColor=white)
+![Flask](https://img.shields.io/badge/Flask-000000?style=for-the-badge&logo=Flask&logoColor=white)
 <img src="https://img.shields.io/badge/GoogleCloud-%234285F4.svg?style=for-the-badge&logo=google-cloud&logoColor=white"/>
   <img src="https://img.shields.io/badge/Flutter-%2302569B.svg?style=for-the-badge&logo=Flutter&logoColor=white"/>
   <img src="https://img.shields.io/badge/dart-%230175C2.svg?style=for-the-badge&logo=dart&logoColor=white"/>
@@ -38,7 +39,9 @@ It aims to provide latest news to the visually impaired and it also serves as a 
 <p align="center">
   <img src="flutter_project/assets/news_screenshots/sports_en.png" alt="Podcast Generator" style="height: 300px; object-fit: contain;">
   <img src="flutter_project/assets/news_screenshots/tech_tr.jpg" alt="Podcast Generator" style="height: 300px; object-fit: contain;">
+  <img src="flutter_project/assets/news_screenshots/sports_en_fullscreen.jpg" alt="Podcast Generator" style="height: 300px; object-fit: contain;">
 </p>
+
 
 
 ## Getting Started
